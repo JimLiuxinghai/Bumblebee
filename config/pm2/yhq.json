@@ -1,0 +1,23 @@
+{
+  "apps": [
+    {
+      "name": "koa2-vue",
+      "cwd": "/home/yanghuiqun/test/account",
+      "script": "./app.js",
+      "exec_mode": "cluster",
+      "node_args": "--harmony",
+      "watch": [
+        "server", "config", "src/views"
+      ],
+      "env": {
+        "NODE_ENV": "development.yhq"
+      },
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "/home/yanghuiqun/test/account/logs/error.log",
+      "out_file": "/home/yanghuiqun/test/account/logs/out.log",
+      "pid_file": "/home/yanghuiqun/test/account/logs/pid.log",
+      "max_memory_restart": "400M",
+      "instances": "1"
+    }
+  ]
+}

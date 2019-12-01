@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "manage-test",
+      "cwd": "/home/market/fe/gz-manage",
+      "script": "./app.js",
+      "exec_mode": "cluster",
+      "node_args": "--harmony",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "/home/market/fe/logs/pm2/error.log",
+      "out_file": "/home/market/fe/logs/pm2/out.log",
+      "pid_file": "/home/market/fe/logs/pm2/out.log",
+      "max_memory_restart": "400M",
+      "instances": "2"
+    }
+  ]
+}

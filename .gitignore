@@ -1,0 +1,19 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# node-waf configuration
+.lock-wscript
+
+
+# Dependency directories
+node_modules
+build/
+
+# Optional npm cache directory
+.npm
+.idea
+sftp-config.json
+
+.DS_Store
