@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "name": "account",
+      "cwd": "/home/dev/project/BW.RD_RMS_MANGE",
+      "script": "./app.js",
+      "exec_mode": "cluster",
+      "node_args": "--harmony",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "error_file": "/home/dev/project/BW.RD_RMS_MANGE/log/pm2/error.log",
+      "out_file": "/home/dev/project/BW.RD_RMS_MANGE/log/pm2/out.log",
+      "pid_file": "/home/dev/project/BW.RD_RMS_MANGE/log/pm2/out.log",
+      "max_memory_restart": "400M",
+      "instances": "1"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "globals": {
+    "__dirname": true,
+    "process": true,
+    "rmsDim": true,
+    "angular": true,
+    "define": true,
+    "Highcharts": true,
+    "JSDCharts": true,
+    "BWChart": true,
+    "chartColor": true,
+    "vapour": true,
+    "helper": true,
+    "cookie": true,
+    "dateHelper": true,
+    "chartHelper": true,
+    "RMSCONFIG": true
+  },
+  "rules": {
+    "eqeqeq": [
+      2,
+      "smart"
+    ],
+    "indent": [
+      2,
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "linebreak-style": [
+      0,
+      "unix"
+    ],
+    "semi": [
+      2,
+      "always"
+    ]
+  },
+  "env": {
+    "es6": true,
+    "jquery": true,
+    "browser": true,
+    "commonjs": true
+  },
+  "extends": "eslint:recommended",
+  "ecmaFeatures": {
+    "modules": true,
+    "module":  true
+  }
+}
