@@ -3,6 +3,8 @@ const koa = require('koa');
 const fs = require('fs');
 const koaRoute = require('koa-router');
 const path = require('path');
+const beelog = require('./log');
+const ip = require('ip');
 
 class BumblebeeLoader {
     loader(path) {
@@ -39,9 +41,7 @@ class BumBleBee extends koa {
         controllers.forEach((crl) => {
             this.controller[crl.name] = crl.module;
         });
-        
-        console.log('TCL: BumBleBee -> constructor -> app.env', this.env);
-        
+                
         global.ENV_CONFIG = require(`../config/env/${this.env}`);
     }
 
@@ -62,6 +62,16 @@ class BumBleBee extends koa {
             return app.router.routes();
         };
         this.use(_setRouters(this));
+        
+    }
+    getLog () {
+        this.use(beelog({
+            env: this.env,
+            projectName: 'BumBleBee',
+            appLogLevel: 'debug',
+            dir: '../logs',
+            serverIp: ip.address()
+        }));
     }
 }
 

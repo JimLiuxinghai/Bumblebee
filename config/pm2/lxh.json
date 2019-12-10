@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "BBB-DEMO",
-      "cwd": "/Users/jimliu/ticket/gz-manage",
+      "cwd": "/home/liuxinghai/project/bbb",
       "script": "./app.js",
       "exec_mode": "cluster",
       "node_args": "--harmony",
@@ -13,9 +13,9 @@
         "NODE_ENV": "development.lxh"
       },
       "log_date_format": "YYYY-MM-DD HH:mm Z",
-      "error_file": "/dev/null",
-      "out_file": "/dev/null",
-      "pid_file": "/dev/null",
+      "error_file": "/home/liuxinghai/project/bbb/logs/error.log",
+      "out_file": "/home/liuxinghai/project/bbb/logs/out.log",
+      "pid_file": "/home/liuxinghai/project/bbb/logs/out.log",
       "max_memory_restart": "400M",
       "instances": "1"
     }
