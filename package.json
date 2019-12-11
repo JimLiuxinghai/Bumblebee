@@ -5,16 +5,13 @@
   "private": true,
   "scripts": {
     "dev_server": "node ./app.js",
-    "dev_static": "gulp default",
-    "start_static": "gulp prod",
     "start_server": "node --harmony ./app.js",
-    "dev": "npm run dev_server & npm run dev_static",
+    "dev": "npm run dev_server",
     "start": "npm run start_static & npm run start_server"
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "body-parser": "^1.15.2",
-    "del": "^2.2.2",
+    "fast-json-stringify": "^1.15.3",
     "ip": "1.1.5",
     "koa": "^2.3.0",
     "koa-bodyparser": "^3.2.0",
@@ -28,9 +25,12 @@
     "koa-static": "^2.0.0",
     "koa-static-cache": "^5.1.2",
     "koa-views": "^5.2.0",
-    "log4js": "^6.1.0",
-    "module": "^1.2.5",
-    "moment": "^2.18.1"
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.mapvalues": "^4.6.0",
+    "lodash.set": "^4.3.2",
+    "on-finished": "^2.3.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
@@ -51,13 +51,6 @@
     "babel-runtime": "^6.20.0",
     "cross-env": "^3.0.0",
     "eslint": "^1.9.0",
-    "eslint-loader": "^1.1.1",
-    "file-loader": "^0.9.0",
-    "gulp": "^3.9.1",
-    "gulp-jade-static-rev": "0.0.3",
-    "run-sequence": "^1.1.5",
-    "vue-loader": "^9.7.0",
-    "webpack": "^2.3.3",
-    "webpack-dev-middleware": "^1.9.0"
+    "eslint-loader": "^1.1.1"
   }
 }
