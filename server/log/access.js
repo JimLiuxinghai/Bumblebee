@@ -1,3 +1,4 @@
+const ip = require('ip');
 /**
  * 记录用户端信息函数
  * @param {any} ctx  全局上下文参数
@@ -12,7 +13,16 @@ module.exports = (ctx, message, commonInfo) => {
         host,
         headers
     } = ctx.request;
+    let req = ctx.req;
+    
+    let clientIP = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+    clientIP = clientIP.replace('::ffff:', '');
+
     const client = {
+        clientIP,
         method,
         url,
         host,

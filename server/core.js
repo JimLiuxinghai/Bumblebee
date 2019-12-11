@@ -4,7 +4,6 @@ const fs = require('fs');
 const koaRoute = require('koa-router');
 const path = require('path');
 const beelog = require('./log');
-const ip = require('ip');
 
 class BumblebeeLoader {
     loader(path) {
@@ -69,8 +68,7 @@ class BumBleBee extends koa {
             env: this.env,
             projectName: 'BumBleBee',
             appLogLevel: 'debug',
-            dir: '../logs',
-            serverIp: ip.address()
+            dir: '../logs'
         }));
     }
 }

@@ -8,21 +8,17 @@ const baseInfo = {
     appLogLevel: 'debug',
     dir: 'logs',
     env: 'dev',
-    projectName: 'Bumblebee',
-    serverIp: '0.0.0.0'
+    projectName: 'Bumblebee'
 }
 
 module.exports = (options) => {
-    // const logger = log4js.getLogger();
-    // logger.level = 'debug';
-    // logger.debug("Some debug messages");
 
     const contextLogger = {}
     const appenders = {}
 
     const opts = Object.assign({}, baseInfo, options || {})
-    const { env, appLogLevel, dir, serverIp, projectName } = opts
-    const commonInfo = { projectName, serverIp }
+    const { env, appLogLevel, dir, projectName } = opts
+    const commonInfo = { projectName }
     appenders.cheese = {
         type: 'dateFile',
         filename: `${logDir}/access.log`,
@@ -35,6 +31,7 @@ module.exports = (options) => {
             type: "console"
         }
     }
+    
     let config = {
         appenders,
         categories: {
@@ -47,11 +44,15 @@ module.exports = (options) => {
         pm2: true, 
         disableClustering: true
     }
+
     log4js.configure(config);
+    log4js.addLayout('json', function (config) {
+        return function (logEvent) { return JSON.stringify(logEvent) + config.separator; }
+    });
 
     
-    const logger = log4js.getLogger('cheese');
- 
+    const logger = log4js.getLogger('[HTTP:ACCESS]');
+
     return async (ctx, next) => {
         const start = Date.now()
         methods.forEach((method, i) => {
