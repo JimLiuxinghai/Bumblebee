@@ -130,18 +130,6 @@ const schemaKeysHandlers = ({
     });
     return outputSchema;
 };
-
-/**
- * logger middleware for koa2 use winston
- *
- * @param {object} [payload={}] - input arguments
- * @param {string[]} [payload.reqKeys=['header','url','method','httpVersion', 'href', 'query', 'length']] - default request fields to be logged
- * @param {string[]} [payload.reqSelect=[]] - additional request fields to be logged
- * @param {string[]} [payload.reqUnselect=['header.cookie']] - request field will be removed from the log
- * @param {string[]} [payload.resKeys=['header', 'status']] - default response fields to be logged
- * @param {string[]} [payload.resSelect=[]] - additional response fields to be logged
- * @param {string[]} [payload.resUnselect=[]] - response field will be removed from the log
- */
 const generateSchema = (payload) => {
     const options = Object.assign(
         {
@@ -172,14 +160,16 @@ const generateSchema = (payload) => {
             schema: defaultSchemas[prefix],
         });
     });
-
+   
     ensureTypeObject(infoSchema.definitions);
+    
     return infoSchema;
 };
 
 const generateFormat = (payload) => {
     const schema = generateSchema(payload);
     const stringify = fastJson(schema);
+    
     const keys = {
         req: Object.keys(schema.definitions.req.properties),
         res: Object.keys(schema.definitions.res.properties),
@@ -192,7 +182,6 @@ const generateFormat = (payload) => {
             });
             info[prefix] = prefixCopy;
         });
-
         const infoMsg = stringify(info);
         // rewrite info object as omit function
         Object.assign(info, JSON.parse(infoMsg));

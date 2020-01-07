@@ -4,6 +4,7 @@ const fs = require('fs');
 const koaRoute = require('koa-router');
 const path = require('path');
 const beelog = require('./log');
+const winston = require('winston');
 
 class BumblebeeLoader {
     loader(path) {
@@ -65,10 +66,14 @@ class BumBleBee extends koa {
     }
     getLog () {
         this.use(beelog({
-            env: this.env,
-            projectName: 'BumBleBee',
-            appLogLevel: 'debug',
-            dir: '../logs'
+            transports: new winston.transports.Console({ json: true, stringify: true }),
+            level: 'info',
+            reqKeys: ['headers', 'url', 'method', 'httpVersion', 'href', 'query', 'length'],
+            reqSelect: [],
+            reqUnselect: ['headers.cookie'],
+            resKeys: ['headers', 'status'],
+            resSelect: [],
+            resUnselect: [],
         }));
     }
 }

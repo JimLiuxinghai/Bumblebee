@@ -1,4 +1,4 @@
-const ip = require('ip');
+const fastJson = require('fast-json-stringify');
 /**
  * 记录用户端信息函数
  * @param {any} ctx  全局上下文参数
