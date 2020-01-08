@@ -58,12 +58,10 @@ module.exports = (payload = {}) => {
         info.duration = Date.now() - info.started_at;
 
         info.level = getLogLevel(info.res.status, defaultLevel);
-        
         winstonLogger.log(info)
     };
 
     return async (ctx, next) => {
-        console.log(format, 'format')
         const info = { req: ctx.request, started_at: Date.now() };
         info.message = format(msg, info.req.method, info.req.url);
         let error;

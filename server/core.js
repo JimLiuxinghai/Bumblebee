@@ -5,10 +5,11 @@ const koaRoute = require('koa-router');
 const path = require('path');
 const beelog = require('./log');
 const winston = require('winston');
+const glob = require('glob');
 
 class BumblebeeLoader {
     loader(path) {
-        const dir = fs.readdirSync(path);//同步方法无所谓的，因为是在服务器跑起来之前就完成映射，不会有任何性能影响
+        const dir = fs.readdirSync(path);
         return dir.map((filename) => {
             const module = require(path + '/' + filename);
             return { name: filename.split('.')[0], module };
@@ -41,24 +42,37 @@ class BumBleBee extends koa {
         controllers.forEach((crl) => {
             this.controller[crl.name] = crl.module;
         });
-                
         global.ENV_CONFIG = require(`../config/env/${this.env}`);
     }
 
     setRouters() {
+        //注册api路由
         const _setRouters = (app) => {
-            const routers = require('./api')(app);
+            const dir = 'api';
+            const routersDir = path.join(__dirname, dir);
+            
+            //加载service
             const svs = {};
             app.loader.loadService().forEach((service) => {
                 svs[service.name] = service.module;
             });
-            Object.keys(routers).forEach((key) => {
-                const [method, path] = key.split(' ');
-                app.router[method](path, (ctx) => {
-                    const handler = routers[key];
-                    handler(ctx, svs);
+            glob.sync(routersDir + '/**/*.js').forEach((file, index) => {
+                let routers = require(file)(app);
+                let dirname = path.dirname(file).split(path.sep);
+                dirname = dirname.pop();
+                let name = path.basename(file, '.js');
+                let rPath = `/${dir}/${dirname}/${name}`;
+                
+                Object.keys(routers).forEach((key) => {
+                    const [method, path] = key.split(' ');
+                    app.router[method](rPath, (ctx) => {
+                        const handler = routers[key];
+                        //挂载service
+                        handler(ctx, svs);
+                    });
                 });
-            });
+            })
+            
             return app.router.routes();
         };
         this.use(_setRouters(this));
