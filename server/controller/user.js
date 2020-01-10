@@ -1,7 +1,10 @@
 module.exports = {
-    getUser(ctx) {
+    getUser(ctx, svs) {
         //throw new Error();
-        ctx.body = 'getuser';
+        let data = {
+            a: 1
+        }
+        ctx.send({data});
         
     },
     getUserInfo(ctx) {

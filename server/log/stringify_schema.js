@@ -1,7 +1,8 @@
-const set = require('lodash.set');
-const get = require('lodash.get');
-const mapvalues = require('lodash.mapvalues');
-const clonedeep = require('lodash.clonedeep');
+const lodash = require('lodash');
+const set = lodash.set;
+const get = lodash.get;
+const mapvalues = lodash.mapValues;
+const clonedeep = lodash.cloneDeep;
 const fastJson = require('fast-json-stringify');
 
 const PREFIXS = ['req', 'res'];

@@ -25,10 +25,7 @@
     "koa-static": "^2.0.0",
     "koa-static-cache": "^5.1.2",
     "koa-views": "^5.2.0",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.get": "^4.4.2",
-    "lodash.mapvalues": "^4.6.0",
-    "lodash.set": "^4.3.2",
+    "lodash": "^4.17.15",
     "on-finished": "^2.3.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.0"

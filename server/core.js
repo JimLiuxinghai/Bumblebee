@@ -6,7 +6,10 @@ const path = require('path');
 const beelog = require('./log');
 const winston = require('winston');
 const glob = require('glob');
+const bodyparser = require('koa-bodyparser');
+const json = require('koa-json');
 
+const sendHanler = require('./middlewares/send')
 class BumblebeeLoader {
     loader(path) {
         const dir = fs.readdirSync(path);
@@ -24,10 +27,8 @@ class BumblebeeLoader {
     //加载serverice
     loadService() {
         const url = path.join(__dirname, './service');
-
         return this.loader(url);
     }
-
 }
 
 class BumBleBee extends koa {
@@ -42,6 +43,7 @@ class BumBleBee extends koa {
         controllers.forEach((crl) => {
             this.controller[crl.name] = crl.module;
         });
+        //全局添加配置文件
         global.ENV_CONFIG = require(`../config/env/${this.env}`);
     }
 
@@ -78,9 +80,14 @@ class BumBleBee extends koa {
         this.use(_setRouters(this));
         
     }
+    //注册中间件
+    useMiddleware () {
+        this.use(bodyparser());
+        this.use(sendHanler());
+    }
     getLog () {
         this.use(beelog({
-            transports: new winston.transports.Console({ json: true, stringify: true }),
+            //transports: new winston.transports.Console({ json: true, stringify: true }),
             level: 'info',
             reqKeys: ['headers', 'url', 'method', 'httpVersion', 'href', 'query', 'length'],
             reqSelect: [],

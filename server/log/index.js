@@ -16,8 +16,9 @@ module.exports = (options) => {
                 if (ctx.status < 500) {
                     ctx.status = 500;
                 }
-                ctx.log.error(e.stack);
-                ctx.state.logged = true;
+                console.log(e.stack)
+                // ctx.log.error(e.stack);
+                // ctx.state.logged = true;
                 ctx.throw(e);
             });
     };

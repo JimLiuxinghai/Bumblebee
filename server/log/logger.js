@@ -44,15 +44,20 @@ module.exports = (payload = {}) => {
         transports,
         format: wfcombine(wfprintf(stringifyFormat)),
     });
-    // winstonLogger.configure({
-    //     transports: [
-    //         new DailyRotateFile({
-    //             filename: `${logDir}/access.log.%DATE%`,
-    //             datePattern: 'YYYYMMDDHH',
-    //             zippedArchive: true,
-    //         })
-    //     ]
-    // });
+
+    //非开发环境 记录日志文件
+    if (!process.env.NODE_ENV.match('devlopment')) {
+        winstonLogger.configure({
+            transports: [
+                new DailyRotateFile({
+                    filename: `${logDir}/access.log.%DATE%`,
+                    datePattern: 'YYYYMMDD',
+                    zippedArchive: true,
+                })
+            ]
+        });
+    }
+    
     const onResponseFinished = (ctx, info) => {
         info.res = ctx.response;
         info.duration = Date.now() - info.started_at;
