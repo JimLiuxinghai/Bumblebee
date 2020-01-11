@@ -4,12 +4,12 @@ const fs = require('fs');
 const koaRoute = require('koa-router');
 const path = require('path');
 const beelog = require('./log');
-const winston = require('winston');
 const glob = require('glob');
 const bodyparser = require('koa-bodyparser');
 const json = require('koa-json');
-
-const sendHanler = require('./middlewares/send')
+// const util = require('./util/server');
+const sendHanler = require('./middlewares/send');
+const trace = require('./middlewares/trace');
 class BumblebeeLoader {
     loader(path) {
         const dir = fs.readdirSync(path);
@@ -58,7 +58,7 @@ class BumBleBee extends koa {
             app.loader.loadService().forEach((service) => {
                 svs[service.name] = service.module;
             });
-            glob.sync(routersDir + '/**/*.js').forEach((file, index) => {
+            glob.sync(routersDir + '/**/*.js').forEach((file) => {
                 let routers = require(file)(app);
                 let dirname = path.dirname(file).split(path.sep);
                 dirname = dirname.pop();
@@ -66,14 +66,14 @@ class BumBleBee extends koa {
                 let rPath = `/${dir}/${dirname}/${name}`;
                 
                 Object.keys(routers).forEach((key) => {
-                    const [method, path] = key.split(' ');
+                    const [method] = key.split(' ');
                     app.router[method](rPath, (ctx) => {
                         const handler = routers[key];
                         //挂载service
                         handler(ctx, svs);
                     });
                 });
-            })
+            });
             
             return app.router.routes();
         };
@@ -82,8 +82,10 @@ class BumBleBee extends koa {
     }
     //注册中间件
     useMiddleware () {
+        this.use(json());
         this.use(bodyparser());
         this.use(sendHanler());
+        this.use(trace());
     }
     getLog () {
         this.use(beelog({
@@ -94,7 +96,7 @@ class BumBleBee extends koa {
             reqUnselect: ['headers.cookie'],
             resKeys: ['headers', 'status'],
             resSelect: [],
-            resUnselect: [],
+            resUnselect: []
         }));
     }
 }

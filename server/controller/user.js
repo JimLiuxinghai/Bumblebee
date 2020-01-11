@@ -3,7 +3,7 @@ module.exports = {
         //throw new Error();
         let data = {
             a: 1
-        }
+        };
         ctx.send({data});
         
     },

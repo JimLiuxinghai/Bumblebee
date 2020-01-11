@@ -64,7 +64,6 @@ exports.recordLog = function recordLog(logger, options) {
     } else {
         log = `[${key}] [${ip}] ${options.req.originalUrl || ''}|${content}${other}`;
     }
-    console.log(log, '********')
     logFn.call(logger, log);
 };
 

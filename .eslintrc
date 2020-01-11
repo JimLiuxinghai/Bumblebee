@@ -2,19 +2,7 @@
   "globals": {
     "__dirname": true,
     "process": true,
-    "rmsDim": true,
-    "angular": true,
-    "define": true,
-    "Highcharts": true,
-    "JSDCharts": true,
-    "BWChart": true,
-    "chartColor": true,
-    "vapour": true,
-    "helper": true,
-    "cookie": true,
-    "dateHelper": true,
-    "chartHelper": true,
-    "RMSCONFIG": true
+    "util": true
   },
   "rules": {
     "eqeqeq": [

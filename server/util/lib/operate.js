@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 2017/9/1.
+ * Created by Jimliu on 2019/1/11.
  * 后台文件操作函数
  */
 
@@ -101,26 +101,19 @@ exports.readByPromise = (dirname, config = {}) => {
 };
 /**
  * 获取客户端真实ip
- * 这里有一个坑，会获取到2个ip，取其中一个即可
- * @param req
+ * @param ctx
  * @returns {*}
  */
-exports.clientIp = function clientIp(req) {
-    let ip = req.headers['x-forwarded-for'] ||
-        req.connection.remoteAddress ||
-        req.socket.remoteAddress ||
-        req.connection.socket.remoteAddress;
-    let ips = ip.split(',')[0]
-    return ips.split('ffff:')[1];
+exports.clientIp = function clientIp(ctx) {
+    return ctx.headers['x-forwarded-for'] || ctx.headers['x-real-ip']
 };
 /**
  * 获取真实ip
- * @param req
+ * @param ctx
  * @returns {*}
  */
-exports.realIp = function realIp(req) {
-    let ips = (req.headers['x-real-ip'] || '').split(',')[0]
-    return ips.split('ffff:')[1];
+exports.realIp = function realIp(ctx) {
+    return ctx.headers['x-forwarded-for'] || ctx.headers['x-real-ip']
 };
 
 /**
@@ -128,12 +121,10 @@ exports.realIp = function realIp(req) {
  * @param req
  * @returns {*}
  */
-exports.createRequestUid = function createRequestUid(req, res) {
-    let rid = req.__datestamp || new Date().getTime();
-    let ip = exports.realIp(req) || exports.clientIp(req);
-    let referer = req.headers.referer || req.headers.referrer || '';
-    let cookies = req['cookies'] || {};
-    cookies = JSON.stringify(cookies);
-    return encrypt.md5(rid + ip + req.url + referer + cookies + req.method).substring(19);
+exports.createTraceId = function createTraceId(ctx, res) {
+    let rid = new Date().getTime();
+    let ip = exports.realIp(ctx);
+    let cookies = ctx.headers['cookies'] || {};
+    return encrypt.md5(rid + ip + ctx.url  + cookies + ctx.method).substring(19);
 };
 

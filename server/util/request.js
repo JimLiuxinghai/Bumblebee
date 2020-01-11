@@ -1,5 +1,4 @@
 const request = require('request');
-const log4js = require('log4js');
 const logger = log4js.getLogger('[API]');
 /**
  * request()(req, {}).then();
