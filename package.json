@@ -27,7 +27,7 @@
     "koa-static-cache": "^5.1.2",
     "koa-views": "^5.2.0",
     "lodash": "^4.17.15",
-    "on-finished": "^2.3.0",
+    "request": "^2.88.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.0"
   },

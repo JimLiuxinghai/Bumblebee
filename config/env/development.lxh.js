@@ -11,5 +11,15 @@ module.exports = {
 		config: {
 			
 		}
+	},
+	logger: {
+		name: 'prd',
+		level: 'info',
+		json: true,
+		colorize: false,
+		localTime: true,
+		datePattern: 'YYYYMMDD',
+		filename: 'access.log.%DATE%',
+		dirname: `./logs`
 	}
 };

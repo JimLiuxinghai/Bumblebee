@@ -6,10 +6,7 @@ const app = new BumBleBee();
 
 
 
-app.getLog();
-
-//先引入中间件再注册路由
-app.useMiddleware();
+// app.getLog();
 
 app.setRouters();
 

@@ -1,6 +1,5 @@
 module.exports = {
     getUser(ctx, svs) {
-        //throw new Error();
         let data = {
             a: 1
         };
