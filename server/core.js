@@ -39,10 +39,13 @@ class BumBleBee extends koa {
         controllers.forEach((crl) => {
             this.controller[crl.name] = crl.module;
         });
-        //注册中间件
-        middleware(this);
+        
         //全局添加配置文件
         global.ENV_CONFIG = require(`../config/env/${this.env}`);
+        //全局添加util方法
+        global.util = require('./util/server');
+        //注册中间件
+        middleware(this);
     }
 
     setRouters() {
@@ -64,11 +67,12 @@ class BumBleBee extends koa {
                 let rPath = `/${dir}/${dirname}/${name}`;
                 
                 Object.keys(routers).forEach((key) => {
-                    const [method] = key.split(' ');
-                    app.router[method](rPath, (ctx) => {
+                    const [method, childPath] = key.split(' ');
+                    let routePath = path.join(rPath, childPath)
+                    app.router[method](routePath, async (ctx) => {
                         const handler = routers[key];
                         //挂载service
-                        handler(ctx, svs);
+                        await handler(ctx, svs);
                     });
                 });
             });

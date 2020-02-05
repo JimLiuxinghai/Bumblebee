@@ -4,6 +4,7 @@
 const BumBleBee = require('./core');
 const app = new BumBleBee();
 
+const middleware = require('./middlewares');
 
 
 // app.getLog();

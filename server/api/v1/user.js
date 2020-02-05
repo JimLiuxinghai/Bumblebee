@@ -6,6 +6,6 @@ module.exports = (app) => {
     app.use(auth)
     return {
         'get /': app.controller.user.getUser,
-        'post /': app.controller.user.getUser
+        'get /info': app.controller.user.getUserInfo
     };
 };

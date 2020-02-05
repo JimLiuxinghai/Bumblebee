@@ -62,6 +62,6 @@ exports.get = (name) => {
  * setCache 后台cookie相关函数
  * @type {Function}
  */
-exports.setCache = function (res, key, auth_token, options) {
-    res.cookie(key, auth_token, options);
+exports.setCache = function (ctx, key, auth_token, options) {
+    ctx.cookies.set(key, auth_token, options);
 };

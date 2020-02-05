@@ -1,12 +1,25 @@
+const userModel = require('../models/user');
 module.exports = {
-    getUser(ctx, svs) {
-        let data = {
-            a: 1
+    async getUser(ctx, svs) {
+
+        let params = {
+            url: '/api/v1/user/info',
+            data: {}
         };
-        ctx.send({data});
+        try {
+            let reqData = await svs.user.userInfo(ctx, params);
+            ctx.send({ data: reqData });
+        } catch (err) {
+            ctx.sendError();
+        }
         
     },
     getUserInfo(ctx) {
-        ctx.body = 'getUserInfo';
+        ctx.session.name = 'jimliu';
+        let data = {
+            a: 'userinfo'
+        };
+
+        ctx.send({ data });
     }
 };

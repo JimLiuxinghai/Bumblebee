@@ -4,16 +4,15 @@ const log = require('./lib/log.js');
 const operate = require('./lib/operate.js');
 const object = require('./lib/object.js');
 const encrypt = require('./lib/encrypt.js');
-const param = require('./lib/paramverify.js');
 const number = require('./lib/number.js');
-
+const request = require('./request');
 module.exports = {
-    log: log,
-    date: date,
-    object: object,
-    number: number,
-    cookie: cookie,
-    encrypt: encrypt,
-    operate: operate,
-    param: param
+    log,
+    date,
+    object,
+    number,
+    cookie,
+    encrypt,
+    operate,
+    request
 };

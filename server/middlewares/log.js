@@ -16,6 +16,7 @@ module.exports = () => {
         //ctx.errCode = errCode;
         await next();
         let time = (new Date() - startTime) + 'ms';
-        log.info({ type: '[HTTP ACCESS]', traceId: ctx.traceId, ip, method: ctx.request.method, url: ctx.request.originalUrl, query: ctx.query, time});
+        
+        log.info({ type: '[HTTP ACCESS]', traceId: ctx.traceId, ip, method: ctx.request.method, url: ctx.request.originalUrl, query: ctx.query || ctx.request.body, status: ctx.response.status, time});
     };
 };
