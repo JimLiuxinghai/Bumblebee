@@ -1,4 +1,4 @@
-const userModel = require('../models/user');
+const userModel = require('../bs_models/user');
 module.exports = {
     async getUser(ctx, svs) {
 
@@ -7,8 +7,9 @@ module.exports = {
             data: {}
         };
         try {
-            let reqData = await svs.user.userInfo(ctx, params);
-            ctx.send({ data: reqData });
+            //let reqData = await svs.user.userInfo(ctx, params);
+            let data = await userModel.select(ctx, { userid: 300000})
+            ctx.send({ data: data });
         } catch (err) {
             ctx.sendError();
         }

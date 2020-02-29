@@ -30,6 +30,11 @@ class BumblebeeLoader {
 class BumBleBee extends koa {
     constructor() {
         super();
+        //全局添加配置文件
+        global.ENV_CONFIG = require(`../config/env/${this.env}`);
+        //全局添加util方法
+        global.util = require('./util/server');
+        
         this.router = new koaRoute();
         
         this.loader = new BumblebeeLoader();
@@ -40,10 +45,7 @@ class BumBleBee extends koa {
             this.controller[crl.name] = crl.module;
         });
         
-        //全局添加配置文件
-        global.ENV_CONFIG = require(`../config/env/${this.env}`);
-        //全局添加util方法
-        global.util = require('./util/server');
+        
         //注册中间件
         middleware(this);
     }

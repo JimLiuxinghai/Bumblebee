@@ -21,12 +21,17 @@ module.exports = {
             password: "auth",
             db: 0
         }),
-        config: {
-
-        }
+        mysql: {
+            host: '127.0.0.1',
+            port: 3306,
+            username: 'username',
+            password: '123456',
+            database: 'your database',
+            comments: 'your commnets'
+        },
     },
     logger: {
-        name: 'prd',
+        name: 'your logger names',
         level: 'info',
         json: true,
         colorize: false,
