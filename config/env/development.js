@@ -1,5 +1,5 @@
 const Redis = require('ioredis');
-const maxage = 1000 * 60 * 60 * 2; //两个小时
+const maxage = 1000 * 60 * 60 * 2; //2 hours
 module.exports = {
     port: 3001,
     secretKey: 'your session key', //your session key
@@ -7,7 +7,7 @@ module.exports = {
     api: {
         test: {
             user: {
-                url: 'https://dv-ucenter.com'
+                url: 'https://demo.com' //http address
             }
         }
     },

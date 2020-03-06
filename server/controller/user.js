@@ -1,13 +1,8 @@
 const userModel = require('../bs_models/user');
 module.exports = {
-    async getUser(ctx, svs) {
-
-        let params = {
-            url: '/api/v1/user/info',
-            data: {}
-        };
+    async getUser(ctx) {
         try {
-            //let reqData = await svs.user.userInfo(ctx, params);
+            
             let data = await userModel.select(ctx, { userid: 300000})
             ctx.send({ data: data });
         } catch (err) {
@@ -15,12 +10,20 @@ module.exports = {
         }
         
     },
-    getUserInfo(ctx) {
-        ctx.session.name = 'jimliu';
-        let data = {
-            a: 'userinfo'
+    async getUserInfo(ctx, svs) {
+        let params = {
+            url: '/api/v1/user/info',
+            data: {}
         };
-
-        ctx.send({ data });
+        try {
+            let data = await svs.user.userInfo(ctx, params);
+            //test session
+            ctx.session.name = 'jimliu';
+            
+            ctx.send({ data });
+        }
+        catch (err) {
+            ctx.sendError();
+        }
     }
 };

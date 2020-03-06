@@ -1,8 +1,8 @@
 {
   "apps": [
     {
-      "name": "manage-test",
-      "cwd": "/home/market/fe/gz-manage",
+      "name": "BBB-DEMO",
+      "cwd": "/home/project/bumblebee",
       "script": "./app.js",
       "exec_mode": "cluster",
       "node_args": "--harmony",
@@ -10,9 +10,9 @@
         "NODE_ENV": "test"
       },
       "log_date_format": "YYYY-MM-DD HH:mm Z",
-      "error_file": "/home/market/fe/logs/pm2/error.log",
-      "out_file": "/home/market/fe/logs/pm2/out.log",
-      "pid_file": "/home/market/fe/logs/pm2/out.log",
+      "error_file": "/home/project/bumblebee/logs/pm2/error.log",
+      "out_file": "/home/project/bumblebee/logs/pm2/out.log",
+      "pid_file": "/home/project/bumblebee/logs/pm2/out.log",
       "max_memory_restart": "400M",
       "instances": "2"
     }
