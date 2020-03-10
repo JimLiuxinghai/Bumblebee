@@ -2,8 +2,6 @@
 
 > 企业级Node API 服务脚手架
 
-搭配[Honeybee-cli](https://github.com/bikedawuwang/bee-cli)使用
-
 ## 功能列表
 
 * 环境区分
@@ -32,7 +30,7 @@
 ## 如何使用
 
 
-### 1.fork项目 并clone到本地
+### 1.您可以使用 [Honeybee-cli](https://github.com/bikedawuwang/bee-cli) 快速搭建， 也可以 clone 到本地使用！
 
 ### 2.添加相关配置文件
 
