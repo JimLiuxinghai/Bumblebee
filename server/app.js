@@ -4,11 +4,6 @@
 const BumBleBee = require('./core');
 const app = new BumBleBee();
 
-const middleware = require('./middlewares');
-
-
-// app.getLog();
-
 app.setRouters();
 
 app.listen(ENV_CONFIG.port, () => {

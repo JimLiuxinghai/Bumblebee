@@ -112,7 +112,7 @@ exports.clientIp = function clientIp(ctx) {
  * @param ctx
  * @returns {*}
  */
-exports.realIp = function realIp(ctx) {
+exports.realIp = (ctx) => {
     return ctx.headers['x-forwarded-for'] || ctx.headers['x-real-ip']
 };
 
@@ -123,7 +123,7 @@ exports.realIp = function realIp(ctx) {
  */
 exports.createTraceId = function createTraceId(ctx, res) {
     let rid = new Date().getTime();
-    let ip = exports.realIp(ctx);
+    let ip = ctx.headers['x-forwarded-for'] || ctx.headers['x-real-ip'];
     let cookies = ctx.headers['cookies'] || {};
     return encrypt.md5(rid + ip + ctx.url  + cookies + ctx.method).substring(19);
 };
