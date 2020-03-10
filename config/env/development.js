@@ -5,10 +5,8 @@ module.exports = {
     secretKey: 'your session key', //your session key
     domain: '.example.com', //your site  
     api: {
-        test: {
-            user: {
-                url: 'https://demo.com' //http address
-            }
+        user: {
+            url: 'https://demo.com' //http address
         }
     },
 

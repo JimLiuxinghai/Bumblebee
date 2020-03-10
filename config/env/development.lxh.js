@@ -9,7 +9,6 @@ module.exports = {
 			url: 'http://lxh-ucenter.brandwisdom.cn/api/v1'
 		}
 	},
-	
 	db: {
 		//session store
 		store: new Redis.Cluster([

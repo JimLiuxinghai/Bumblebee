@@ -2,6 +2,8 @@
 
 > 企业级Node API 服务脚手架
 
+搭配[Honeybee-cli](https://github.com/bikedawuwang/bee-cli)使用
+
 ## 功能列表
 
 * 环境区分
