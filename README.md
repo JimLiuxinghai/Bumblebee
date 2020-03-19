@@ -109,6 +109,9 @@ module.exports = {
 * 1.base_models中增加sql
 * 2.使用util.request 请求数据
 
+### 5.启动
+pm2 start config/pm2/your-name.json
+
 #
 
 ## 结构预览
@@ -172,11 +175,13 @@ module.exports = {
 
 ## TODO
 
-* 1.完整示例
+* 1.单元测试
 
-* 2.增加react，前后端同构
+* 2.完整示例
 
-* 3.英文说明
+* 3.增加react，前后端同构
+
+* 4.英文说明
 
 ## 联系
 
