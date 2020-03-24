@@ -4,8 +4,8 @@ const sendHanler = require('./send');
 const trace = require('./trace');
 const logMiddleware = require('./log');
 const log = require('../util/lib/log');
-const session = require('koa-session2');
-const Store = require("./session.js");
+const session = require('koa-generic-session');
+const redisStore = require('koa-redis');
 module.exports = app => {
     // 捕获应用级错误
     app.on('error', (err) => {
@@ -21,9 +21,13 @@ module.exports = app => {
             })
         )
         .use(session({
-            key: ENV_CONFIG.secretKey,
-            store: new Store(), //redis 共享session
-            domain: ENV_CONFIG.domain
+            key: ENV_CONFIG.sessionKey,
+            prefix: ENV_CONFIG.secretKey,
+            store: redisStore(ENV_CONFIG.db.redis), //redis 共享session
+            domain: ENV_CONFIG.domain,
+            cookie: {
+                signed: false
+            }
         }))
         .use(trace())
         .use(sendHanler())

@@ -2,7 +2,8 @@ const Redis = require('ioredis');
 const maxage = 1000 * 60 * 60 * 2; //2 hours
 module.exports = {
     port: 3002,
-    secretKey: 'your session key', //your session key
+    sessionKey: "your session key",
+    secretKey: 'your session secret', //your session secret
     domain: '.example.com', //your site  
     api: {
         test: {
@@ -14,13 +15,13 @@ module.exports = {
 
     db: {
         //session store or you can use  RedisCluster  
-        store: new Redis({
+        redis: {
             port: 6379, // Redis port
             host: "127.0.0.1", // Redis host
             family: 4, // 4 (IPv4) or 6 (IPv6)
             password: "auth",
             db: 0
-        }),
+        },
         mysql: {
             host: '127.0.0.1',
             port: 3306,
