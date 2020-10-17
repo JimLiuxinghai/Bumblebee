@@ -6,6 +6,7 @@ const object = require('./lib/object.js');
 const encrypt = require('./lib/encrypt.js');
 const number = require('./lib/number.js');
 const request = require('./request');
+const tips =require('./tips');
 module.exports = {
     log,
     date,
@@ -14,5 +15,8 @@ module.exports = {
     cookie,
     encrypt,
     operate,
-    request
+    request,
+    errorModal(err) {
+        return object.clone(tips[err]);
+    }
 };

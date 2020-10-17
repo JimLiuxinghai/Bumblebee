@@ -1,4 +1,4 @@
-const bodyparser = require('koa-bodyparser');
+const koaBody = require('koa-body');
 const json = require('koa-json');
 const sendHanler = require('./send');
 const trace = require('./trace');
@@ -14,10 +14,11 @@ module.exports = app => {
     app
         .use(json())
         .use(
-            bodyparser({
-                enableTypes: ['json', 'form'],
-                formLimit: '50mb',
-                jsonLimit: '50mb',
+            koaBody({
+                multipart: true,
+                formidable: {
+                    maxFileSize: 900000 * 1024 * 1024, // 设置上传文件大小最大限制，默认900M
+                },
             })
         )
         .use(session({
