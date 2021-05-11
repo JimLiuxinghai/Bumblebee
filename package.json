@@ -25,7 +25,7 @@
     "koa-router": "^7.0.1",
     "koa-send": "^3.2.0",
     "koa-views": "^5.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "request": "^2.88.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.0"
