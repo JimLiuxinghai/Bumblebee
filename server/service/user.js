@@ -1,4 +1,4 @@
-const userModel = require('../models/user');
+const userModel = require('../bs_models/user');
 module.exports = {
     async userInfo(ctx) {
         let params = {

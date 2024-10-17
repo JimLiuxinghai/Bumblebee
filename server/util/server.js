@@ -6,7 +6,7 @@ const object = require('./lib/object.js');
 const encrypt = require('./lib/encrypt.js');
 const number = require('./lib/number.js');
 const request = require('./request');
-const tips =require('./tips');
+const tips = require('./lib/tips');
 module.exports = {
     log,
     date,

@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "BBB-DEMO",
-      "cwd": "/home/liuxinghai/project/bbb",
+      "cwd": "/Users/jimliu/project/Bumblebee",
       "script": "./app.js",
       "exec_mode": "cluster",
       "node_args": "--harmony",
@@ -10,12 +10,12 @@
         "server", "config", "src/views"
       ],
       "env": {
-        "NODE_ENV": "development.lxh"
+        "NODE_ENV": "development"
       },
       "log_date_format": "YYYY-MM-DD HH:mm Z",
-      "error_file": "/home/liuxinghai/project/bbb/logs/error.log",
-      "out_file": "/home/liuxinghai/project/bbb/logs/out.log",
-      "pid_file": "/home/liuxinghai/project/bbb/logs/out.log",
+      "error_file": "/Users/jimliu/project/Bumblebee/logs/error.log",
+      "out_file": "/Users/jimliu/project/Bumblebee/logs/out.log",
+      "pid_file": "/Users/jimliu/project/Bumblebee/logs/out.log",
       "max_memory_restart": "400M",
       "instances": "1"
     }

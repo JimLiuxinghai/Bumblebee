@@ -1,115 +1,113 @@
-const request = require('request');
+const axios = require('axios');
 const tips = require('./lib/tips');
 const log = require('./lib/log');
+
 /**
- * request()(req, {}).then();
+ * Fetches data from a backend API using Axios.
  *
- * 后端接口
- *
- * @returns {Function}
+ * @param {Object} ctx - Koa context object (optional)
+ * @param {Object} options - Request options
+ * @returns {Promise} Promise resolving to API response data
  */
-module.exports = (ctx) => {
-    return (options) => {
-        let ip = util.operate.realIp(ctx);
+module.exports = (ctx = {}) => (options) => {
+  let ip = ctx?.request?.ip || ''; // Get IP from ctx object if available
 
-        // data
-        options.data = options.data || {};
+  // Default data and method
+  options.data = options.data || {};
+  const method = (options.type || 'POST').toUpperCase();
 
-        const method = (options.type || 'POST').toUpperCase();
+  let apiConfig = ENV_CONFIG.api[options.api];
+  let url = (apiConfig.url || '') + options.url;
 
-        let apiConfig = ENV_CONFIG.api[options.api];
+  // Set headers
+  const headers = {
+    'client-ip': ip,
+    'User-Agent': ctx.header?.['user-agent'],
+  };
 
-        options.headers = util.object.extend(options.headers || {}, apiConfig.data || {});
+  // Add token if provided
+  const token = options.token || '';
+  if (token) {
+    headers.token = token;
+  }
 
-        let url = (apiConfig.url || '') + options.url;
+  // Merge API specific headers
+  headers = Object.assign({}, headers, apiConfig.data || {});
+  headers = Object.assign({}, headers, options.headers || {}); // User provided headers
 
-        // 设置cookie
-        let token = options.token || '';
-        let j = request.jar();
-        if (token) {
-            let cookie = request.cookie('token=' + token);
-            j.setCookie(cookie, options.api);
-        }
-        // 参数配置
-        let param = {
-            method: method,
-            uri: url,
-            //useQuerystring: true,
-            // 忽略证书
-            strictSSL: false,
-            jar: j
-        };
-
-
-        if (options.timeout) {
-            param.timeout = options.timeout * 1000;
-        }
-
-        // get请求时，走querystring
-        if (method === 'GET') {
-            param.qs = options.data;
-            token && (param.qs.token = token);
-        } else {
-            if (options.isBodyData) {
-                param.json = options.data;
-                param.json.token = token;
-            } else {
-                param.form = options.data;
-                if (token) {
-                    param.form.token = token;
-                }
-            }
-
-        }
-
-        // header
-        param.headers = {
-            'client-ip': ip,
-            'User-Agent': ctx.header['user-agent'],
-            'token': token
-        };
-        param.headers = util.object.extend(param.headers, options.headers || {});
-        // 记录传入的参数
-        log.info({ TYPE: '[REQUEST ACCESS]', traceId: ctx.traceId, ip, method: ctx.request.method, url: param.uri, query: ctx.query || ctx.request.body, status: ctx.response.status, qs: param.qs });
-        // util.log.recordLog(logger, {
-        //     req,
-        //     res,
-        //     url,
-        //     name: 'REQ',
-        //     category: 'OPTIONS',
-        //     content: param
-        // });
-        return new Promise((resolve, reject) => {
-
-            request(param, (err, request, body) => {
-                // 错误记录
-                if (err) {
-                    reject(tips['ERR_SYSTEM_ERROR']);
-                    log.error({ TYPE: '[REQUEST ERROR]', traceId: ctx.traceId, ip, method: param.method, url: param.uri, error: err.messages });
-                    return;
-                }
-
-                let data = body;
-                // 兼容2套不同的api
-                let returnData = {};
-                try {
-                    data = typeof data === 'string' ? JSON.parse(data) : data;
-                } catch (err) {
-                    reject(tips['ERR_SYSTEM_ERROR']);
-                    data = null;
-                    log.error({ TYPE: '[REQUEST ERROR]', traceId: ctx.traceId, ip, method: param.method, url: param.uri, qs: param.qs, error: err.message });
-                    return;
-                }
-                if (typeof data.data === 'string') {
-                    returnData = data.data || {};
-                } else {
-                    returnData = data.data || data.dataInfo || data.result || {};
-                }
-                console.log(returnData, 'data')
-                resolve(returnData);
-                log.info({ TYPE: '[REQUEST SUCCESS]', traceId: ctx.traceId, ip, method: param.method, url: param.uri, qs: param.qs, data: returnData });
-            });
-        });
-
+  // Configure request data based on method
+  let data;
+  if (method === 'GET') {
+    data = options.data; // Use query string for GET requests
+  } else {
+    if (options.isBodyData) {
+      data = options.data; // Use JSON data for body
+    } else {
+      data = options.data; // Use form data for POST/PUT/etc.
     }
-}
+  }
+
+  // Record request details
+  log.info({
+    TYPE: '[REQUEST ACCESS]',
+    traceId: ctx.traceId,
+    ip,
+    method,
+    url,
+    query: ctx.query || ctx.request.body,
+    status: ctx.response?.status,
+  });
+
+  return axios({
+    method,
+    url,
+    headers,
+    data,
+    // Add other Axios options like timeout if needed
+  })
+    .then((response) => {
+      const apiData = response.data;
+      let returnData;
+      try {
+        // Handle different API response structures
+        if (typeof apiData.data === 'string') {
+          returnData = JSON.parse(apiData.data) || {};
+        } else {
+          returnData =
+            apiData.data || apiData.dataInfo || apiData.result || {};
+        }
+      } catch (err) {
+        log.error({
+          TYPE: '[REQUEST ERROR]',
+          traceId: ctx.traceId,
+          ip,
+          method,
+          url,
+          error: err.message,
+        });
+        return Promise.reject(tips['ERR_SYSTEM_ERROR']);
+      }
+
+      log.info({
+        TYPE: '[REQUEST SUCCESS]',
+        traceId: ctx.traceId,
+        ip,
+        method,
+        url,
+        data: returnData,
+      });
+
+      return returnData;
+    })
+    .catch((error) => {
+      log.error({
+        TYPE: '[REQUEST ERROR]',
+        traceId: ctx.traceId,
+        ip,
+        method,
+        url,
+        error: error.message,
+      });
+      return Promise.reject(tips['ERR_SYSTEM_ERROR']);
+    });
+};
